@@ -1,0 +1,1219 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Viagem com Cruzeiro - Sua Aventura Começa Aqui</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary-gradient: linear-gradient(135deg, #1a5f5f 0%, #2d8a8a 50%, #40b5b5 100%);
+            --secondary-gradient: linear-gradient(135deg, #20b2aa 0%, #40e0d0 100%);
+            --accent-gradient: linear-gradient(135deg, #ff7f50 0%, #ffa500 100%);
+            --dark-gradient: linear-gradient(135deg, #1a4b4b 0%, #2d7a7a 100%);
+            --glass-bg: rgba(255, 255, 255, 0.15);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --text-primary: #1a4b4b;
+            --text-secondary: #5a7a7a;
+            --shadow-light: 0 8px 32px rgba(26, 75, 75, 0.2);
+            --shadow-heavy: 0 15px 35px rgba(26, 75, 75, 0.3);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            line-height: 1.6;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            background: linear-gradient(135deg, #f0fffe 0%, #e6fffa 100%);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        /* Glass Morphism Effect */
+        .glass {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            box-shadow: var(--shadow-light);
+        }
+
+        /* Animated Background */
+        .animated-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            z-index: -2;
+        }
+
+        .animated-bg::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 20"><defs><radialGradient id="a" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="rgba(255,255,255,.1)"/><stop offset="100%" stop-color="rgba(255,255,255,0)"/></radialGradient></defs><circle cx="10" cy="10" r="10" fill="url(%23a)"><animateTransform attributeName="transform" type="translate" values="0 0;90 0;0 0" dur="10s" repeatCount="indefinite"/></circle><circle cx="50" cy="10" r="10" fill="url(%23a)"><animateTransform attributeName="transform" type="translate" values="0 0;-40 0;0 0" dur="8s" repeatCount="indefinite"/></circle></svg>');
+            animation: float 20s ease-in-out infinite;
+        }
+
+        /* Navigation */
+        .nav {
+            position: fixed;
+            top: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav.scrolled {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #fff;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .nav.scrolled .nav-links a {
+            color: var(--text-primary);
+        }
+
+        .nav-links a::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: var(--accent-gradient);
+            transition: width 0.3s ease;
+        }
+
+        .nav-links a:hover::after {
+            width: 100%;
+        }
+
+        .nav.scrolled .nav-links a:hover {
+            color: #20b2aa;
+        }
+
+        /* Hero Section */
+        .hero {
+            height: 100vh;
+            position: relative;
+            display: flex;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 4.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            background: linear-gradient(45deg, #fff, #f0f8ff, #fff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            animation: glow 2s ease-in-out infinite alternate;
+        }
+
+        .hero-subtitle {
+            font-size: 1.6rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.5rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-top: 3rem;
+        }
+
+        .btn {
+            padding: 18px 35px;
+            border: none;
+            border-radius: 50px;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .btn:hover::before {
+            left: 100%;
+        }
+
+        .btn-primary {
+            background: var(--accent-gradient);
+            color: white;
+            box-shadow: 0 10px 30px rgba(255, 127, 80, 0.4);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: 0 20px 40px rgba(255, 127, 80, 0.6);
+        }
+
+        .btn-secondary {
+            background: var(--glass-bg);
+            color: white;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            backdrop-filter: blur(10px);
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--text-primary);
+            transform: translateY(-5px) scale(1.05);
+            box-shadow: var(--shadow-heavy);
+        }
+
+        /* Floating Elements */
+        .floating-elements {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        .floating-icon {
+            position: absolute;
+            font-size: 2rem;
+            opacity: 0.1;
+            animation: float-random 15s infinite ease-in-out;
+        }
+
+        .floating-icon:nth-child(1) { top: 20%; left: 10%; animation-delay: 0s; }
+        .floating-icon:nth-child(2) { top: 60%; left: 85%; animation-delay: 2s; }
+        .floating-icon:nth-child(3) { top: 30%; left: 75%; animation-delay: 4s; }
+        .floating-icon:nth-child(4) { top: 70%; left: 15%; animation-delay: 6s; }
+
+        /* Services Section */
+        .services {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f0fffe 0%, #e0fffc 100%);
+            position: relative;
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            font-weight: 800;
+            background: var(--primary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            margin-bottom: 4rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .service-card {
+            background: white;
+            padding: 3rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: var(--primary-gradient);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .service-card:hover::before {
+            opacity: 0.03;
+        }
+
+        .service-card:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .service-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            display: block;
+        }
+
+        .service-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .service-card p {
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            line-height: 1.7;
+        }
+
+        /* VIP Section */
+        .vip-section {
+            padding: 120px 0;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .vip-content {
+            max-width: 900px;
+            margin: 0 auto;
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+
+        .vip-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--glass-border);
+            border-radius: 30px;
+            padding: 4rem 3rem;
+            box-shadow: var(--shadow-heavy);
+            color: white;
+        }
+
+        .vip-section h2 {
+            font-size: 3rem;
+            margin-bottom: 1.5rem;
+            font-weight: 800;
+        }
+
+        .vip-features {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+
+        .vip-feature {
+            padding: 2rem 1.5rem;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+            transition: all 0.3s ease;
+        }
+
+        .vip-feature:hover {
+            transform: translateY(-10px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .vip-feature h4 {
+            font-size: 1.3rem;
+            margin-bottom: 1rem;
+            font-weight: 600;
+        }
+
+        /* Stats Section */
+        .stats {
+            padding: 80px 0;
+            background: var(--dark-gradient);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 3rem;
+            text-align: center;
+        }
+
+        .stat-item {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            font-weight: 300;
+        }
+
+        /* Contact Section */
+        .contact {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f0fffe 0%, #e0fffc 100%);
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 5rem;
+            align-items: center;
+        }
+
+        .contact-form {
+            background: white;
+            padding: 3rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.8rem;
+            font-weight: 600;
+            color: var(--text-primary);
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 15px 20px;
+            border: 2px solid #e8ecf4;
+            border-radius: 15px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            outline: none;
+            border-color: #20b2aa;
+            box-shadow: 0 0 0 3px rgba(32, 178, 170, 0.1);
+        }
+
+        .contact-info h3 {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .contact-item {
+            display: flex;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            font-size: 1.1rem;
+            padding: 1rem;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+            transition: all 0.3s ease;
+        }
+
+        .contact-item:hover {
+            transform: translateX(10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+        }
+
+        .contact-item .icon {
+            margin-right: 1rem;
+            font-size: 1.5rem;
+            background: var(--secondary-gradient);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        /* Testimonials Section */
+        .testimonials {
+            padding: 120px 0;
+            background: white;
+            position: relative;
+        }
+
+        .testimonials-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .testimonial-card {
+            background: linear-gradient(135deg, #f0fffe 0%, #e0fffc 100%);
+            padding: 3rem 2rem;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(32, 178, 170, 0.1);
+        }
+
+        .testimonial-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.12);
+        }
+
+        .testimonial-content {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 2rem;
+            font-style: italic;
+        }
+
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .author-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: var(--secondary-gradient);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            color: white;
+            font-weight: bold;
+        }
+
+        .author-info h4 {
+            font-size: 1.2rem;
+            color: var(--text-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .author-info .location {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        .stars {
+            color: #ffa500;
+            font-size: 1.2rem;
+            margin-bottom: 1rem;
+        }
+
+        /* Destinations Section */
+        .destinations {
+            padding: 120px 0;
+            background: linear-gradient(135deg, #f0fffe 0%, #e0fffc 100%);
+            position: relative;
+        }
+
+        .destinations-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2.5rem;
+            margin-top: 4rem;
+        }
+
+        .destination-card {
+            background: white;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.08);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+        }
+
+        .destination-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.15);
+        }
+
+        .destination-image {
+            height: 200px;
+            background: var(--primary-gradient);
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .destination-content {
+            padding: 2rem;
+        }
+
+        .destination-card h3 {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+            font-weight: 700;
+        }
+
+        .destination-card p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .destination-features {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .feature-tag {
+            background: var(--secondary-gradient);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .destination-price {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            margin-bottom: 1rem;
+        }
+
+        .price-detail {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--dark-gradient);
+            color: white;
+            padding: 3rem 0;
+            text-align: center;
+        }
+
+        /* WhatsApp Button */
+        .whatsapp-btn {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #25d366 0%, #20b2aa 100%);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 70px;
+            height: 70px;
+            font-size: 1.8rem;
+            cursor: pointer;
+            box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4);
+            z-index: 1000;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            animation: pulse 2s infinite;
+        }
+
+        .whatsapp-btn:hover {
+            transform: scale(1.15);
+            box-shadow: 0 15px 40px rgba(37, 211, 102, 0.6);
+        }
+
+        /* Animations */
+        @keyframes glow {
+            from { text-shadow: 0 0 20px rgba(255, 255, 255, 0.5); }
+            to { text-shadow: 0 0 30px rgba(255, 255, 255, 0.8), 0 0 40px rgba(255, 255, 255, 0.3); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-20px) rotate(5deg); }
+        }
+
+        @keyframes float-random {
+            0%, 100% { transform: translateY(0px) translateX(0px); }
+            25% { transform: translateY(-30px) translateX(20px); }
+            50% { transform: translateY(-10px) translateX(-15px); }
+            75% { transform: translateY(-40px) translateX(10px); }
+        }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
+            50% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.8), 0 0 0 10px rgba(32, 178, 170, 0.1); }
+            100% { box-shadow: 0 10px 30px rgba(37, 211, 102, 0.4); }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(60px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in-up {
+            animation: fadeInUp 0.8s ease-out forwards;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            .hero-subtitle { font-size: 1.3rem; }
+            .section-title { font-size: 2.5rem; }
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .nav-links { display: none; }
+            .contact-grid { grid-template-columns: 1fr; gap: 3rem; }
+            .services-grid { grid-template-columns: 1fr; }
+            .stats-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* Scroll Progress Bar */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: var(--accent-gradient);
+            z-index: 9999;
+            transition: width 0.3s ease;
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress" id="scrollProgress"></div>
+
+    <!-- Navigation -->
+    <nav class="nav" id="navbar">
+        <div class="container">
+            <div class="nav-content">
+                <div class="logo">🚢 Viagem com Cruzeiro</div>
+                <ul class="nav-links">
+                    <li><a href="#home">Início</a></li>
+                    <li><a href="#services">Serviços</a></li>
+                    <li><a href="#destinations">Destinos</a></li>
+                    <li><a href="#testimonials">Experiências</a></li>
+                    <li><a href="#vip">Grupo VIP</a></li>
+                    <li><a href="#contact">Contato</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="animated-bg"></div>
+        <div class="floating-elements">
+            <div class="floating-icon">🌊</div>
+            <div class="floating-icon">⚓</div>
+            <div class="floating-icon">🏖️</div>
+            <div class="floating-icon">🐠</div>
+        </div>
+        <div class="container">
+            <div class="hero-content fade-in-up">
+                <h1>Viagem com Cruzeiro</h1>
+                <p class="hero-subtitle">Navegue pelos mares mais belos do mundo com experiências inesquecíveis e momentos únicos</p>
+                <div class="cta-buttons">
+                    <a href="#vip" class="btn btn-primary">🎯 GRUPO VIP EXCLUSIVO</a>
+                    <a href="#services" class="btn btn-secondary">🌊 EXPLORAR CRUZEIROS</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <div class="stats-grid">
+                <div class="stat-item">
+                    <div class="stat-number" id="stat1">5000</div>
+                    <div class="stat-label">Clientes Satisfeitos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="stat2">150</div>
+                    <div class="stat-label">Destinos Únicos</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="stat3">25</div>
+                    <div class="stat-label">Navios Parceiros</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number" id="stat4">98</div>
+                    <div class="stat-label">% Satisfação</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section class="services" id="services">
+        <div class="container">
+            <h2 class="section-title">Experiências Exclusivas</h2>
+            <p class="section-subtitle">Descubra um mundo de possibilidades com nossos serviços premium personalizados para você</p>
+            <div class="services-grid">
+                <div class="service-card">
+                    <div class="service-icon">🚢</div>
+                    <h3>Cruzeiros de Luxo</h3>
+                    <p>Navegue com estilo pelos destinos mais paradisíacos do mundo em navios de última geração com todas as comodidades.</p>
+                    <a href="#contact" class="btn btn-primary">Descobrir</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">👥</div>
+                    <h3>Grupos Privados</h3>
+                    <p>Organize viagens memoráveis com sua família e amigos com itinerários personalizados e atividades exclusivas.</p>
+                    <a href="#contact" class="btn btn-primary">Criar Grupo</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">⭐</div>
+                    <h3>Suítes Premium</h3>
+                    <p>Desfrute do máximo conforto em suítes com vista para o mar, serviço de mordomo e acesso a áreas VIP.</p>
+                    <a href="#contact" class="btn btn-primary">Ver Suítes</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🎯</div>
+                    <h3>Consultoria 24/7</h3>
+                    <p>Especialistas dedicados para planejar cada detalhe da sua viagem com suporte completo antes, durante e após.</p>
+                    <a href="#contact" class="btn btn-primary">Consultor</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">💎</div>
+                    <h3>Ofertas Exclusivas</h3>
+                    <p>Acesso às melhores promoções e pacotes especiais com descontos únicos para nossos clientes VIP.</p>
+                    <a href="#contact" class="btn btn-primary">Ver Ofertas</a>
+                </div>
+                
+                <div class="service-card">
+                    <div class="service-icon">🌍</div>
+                    <h3>Roteiros Únicos</h3>
+                    <p>Explore destinos exóticos e rotas exclusivas no Caribe, Mediterrâneo, Fiordos Nórdicos e muito mais.</p>
+                    <a href="#contact" class="btn btn-primary">Explorar</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- VIP Section -->
+    <section class="vip-section" id="vip">
+        <div class="animated-bg"></div>
+        <div class="container">
+            <div class="vip-content">
+                <div class="vip-card">
+                    <h2>🔥 GRUPO VIP EXCLUSIVO</h2>
+                    <p style="font-size: 1.3rem; margin-bottom: 2rem;">Entre para nossa comunidade premium e tenha acesso a ofertas imperdíveis, conteúdo exclusivo e benefícios únicos!</p>
+                    
+                    <div class="vip-features">
+                        <div class="vip-feature">
+                            <h4>💎 Ofertas VIP</h4>
+                            <p>Promoções exclusivas até 48h antes do público geral</p>
+                        </div>
+                        <div class="vip-feature">
+                            <h4>🎁 Descontos Premium</h4>
+                            <p>Até 40% OFF + cortesias especiais</p>
+                        </div>
+                        <div class="vip-feature">
+                            <h4>📱 Suporte Prioritário</h4>
+                            <p>Atendimento VIP 24/7 com consultores especializados</p>
+                        </div>
+                        <div class="vip-feature">
+                            <h4>🌟 Conteúdo Exclusivo</h4>
+                            <p>Guias, dicas e roteiros secretos dos especialistas</p>
+                        </div>
+                    </div>
+                    
+                    <div style="margin-top: 3rem;">
+                        <a href="https://wa.me/5511999999999?text=🔥%20QUERO%20ENTRAR%20NO%20GRUPO%20VIP%20EXCLUSIVO!" class="btn btn-primary" style="font-size: 1.3rem; padding: 25px 50px; box-shadow: 0 15px 40px rgba(255, 127, 80, 0.5);">
+                            🚀 GARANTIR MINHA VAGA VIP AGORA
+                        </a>
+                        <p style="margin-top: 1rem; opacity: 0.8; font-size: 0.9rem;">✅ 100% Gratuito | ⚡ Acesso Instantâneo | 🔒 Vagas Limitadas</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Destinations Section -->
+    <section class="destinations" id="destinations">
+        <div class="container">
+            <h2 class="section-title">Destinos dos Sonhos</h2>
+            <p class="section-subtitle">Explore os destinos mais paradisíacos do mundo com nossos cruzeiros exclusivos</p>
+            <div class="destinations-grid">
+                <div class="destination-card">
+                    <div class="destination-image">🏝️</div>
+                    <div class="destination-content">
+                        <h3>Caribe Tropical</h3>
+                        <p>Águas cristalinas, praias de areia branca e um paraíso tropical te aguardam nas ilhas caribenhas.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">7 dias</span>
+                            <span class="feature-tag">All Inclusive</span>
+                            <span class="feature-tag">5 ilhas</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 2.890</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">🌊</div>
+                    <div class="destination-content">
+                        <h3>Mediterrâneo Clássico</h3>
+                        <p>História, cultura e paisagens deslumbrantes em um roteiro pelos tesouros do Mediterrâneo.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">10 dias</span>
+                            <span class="feature-tag">Cultura</span>
+                            <span class="feature-tag">7 países</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 4.590</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">🏔️</div>
+                    <div class="destination-content">
+                        <h3>Fiordos Nórdicos</h3>
+                        <p>Paisagens épicas, auroras boreais e a majestade dos fiordos noruegueses em uma aventura única.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">12 dias</span>
+                            <span class="feature-tag">Aurora Boreal</span>
+                            <span class="feature-tag">Aventura</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 6.890</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">🐧</div>
+                    <div class="destination-content">
+                        <h3>Antártica Expedição</h3>
+                        <p>Uma jornada extraordinária ao continente branco, com vida selvagem única e paisagens intocadas.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">14 dias</span>
+                            <span class="feature-tag">Expedição</span>
+                            <span class="feature-tag">Vida Selvagem</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 12.890</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">🌺</div>
+                    <div class="destination-content">
+                        <h3>Polinésia Francesa</h3>
+                        <p>O paraíso na Terra com Tahiti, Bora Bora e ilhas paradisíacas de tirar o fôlego.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">9 dias</span>
+                            <span class="feature-tag">Luxo</span>
+                            <span class="feature-tag">Romance</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 8.490</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+                
+                <div class="destination-card">
+                    <div class="destination-image">🌴</div>
+                    <div class="destination-content">
+                        <h3>Costa Brasileira</h3>
+                        <p>Descubra as belezas do nosso litoral com paradas em Santos, Salvador, Recife e muito mais.</p>
+                        <div class="destination-features">
+                            <span class="feature-tag">5 dias</span>
+                            <span class="feature-tag">Nacional</span>
+                            <span class="feature-tag">Família</span>
+                        </div>
+                        <div class="destination-price">A partir de R$ 1.590</div>
+                        <div class="price-detail">*Por pessoa em cabine dupla</div>
+                        <a href="#contact" class="btn btn-primary">Ver Pacotes</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="testimonials" id="testimonials">
+        <div class="container">
+            <h2 class="section-title">Experiências Transformadoras</h2>
+            <p class="section-subtitle">Descubra o que nossos viajantes têm a dizer sobre suas aventuras inesquecíveis</p>
+            <div class="testimonials-grid">
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "Simplesmente espetacular! O cruzeiro pelo Caribe superou todas as minhas expectativas. Atendimento impecável, cabine luxuosa e destinos paradisíacos. Já estou planejando a próxima viagem!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">MR</div>
+                        <div class="author-info">
+                            <h4>Maria Rodrigues</h4>
+                            <div class="location">São Paulo, SP</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "O grupo VIP da Viagem com Cruzeiro é fantástico! Sempre recebo as melhores ofertas primeiro e o suporte é excepcional. Recomendo a todos que querem viajar com qualidade!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">CS</div>
+                        <div class="author-info">
+                            <h4>Carlos Silva</h4>
+                            <div class="location">Rio de Janeiro, RJ</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "Organizamos nossa lua de mel através deles e foi perfeito! Cada detalhe foi pensado com carinho. O Mediterrâneo estava deslumbrante e vivemos momentos únicos juntos."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">AP</div>
+                        <div class="author-info">
+                            <h4>Ana & Pedro</h4>
+                            <div class="location">Belo Horizonte, MG</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "Levei toda minha família e foi incrível! As crianças se divertiram muito, os adultos relaxaram e todos criamos memórias para a vida toda. Voltaremos com certeza!"
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">FM</div>
+                        <div class="author-info">
+                            <h4>Família Martins</h4>
+                            <div class="location">Curitiba, PR</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "A expedição à Antártica foi a realização de um sonho! Tudo muito bem organizado, guias especializados e uma experiência que mudou minha perspectiva de mundo."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">JL</div>
+                        <div class="author-info">
+                            <h4>João Lima</h4>
+                            <div class="location">Brasília, DF</div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="testimonial-card">
+                    <div class="stars">⭐⭐⭐⭐⭐</div>
+                    <div class="testimonial-content">
+                        "Profissionais excepcionais! Desde o primeiro contato até o retorno da viagem, tudo foi perfeito. Preços justos, qualidade superior e um atendimento que faz a diferença."
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-avatar">LT</div>
+                        <div class="author-info">
+                            <h4>Lucia Tavares</h4>
+                            <div class="location">Salvador, BA</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Contact Section -->
+    <section class="contact" id="contact">
+        <div class="container">
+            <h2 class="section-title">Vamos Planejar Sua Aventura</h2>
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3>Fale com Nossos Especialistas</h3>
+                    <div class="contact-item">
+                        <span class="icon">📱</span>
+                        <span>(11) 99999-9999</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">✉️</span>
+                        <span>vip@viagemcomcruzeiro.com.br</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">📍</span>
+                        <span>São Paulo, SP - Brasil</span>
+                    </div>
+                    <div class="contact-item">
+                        <span class="icon">🕐</span>
+                        <span>Atendimento 24h/7 dias</span>
+                    </div>
+                </div>
+                
+                <div class="contact-form">
+                    <form id="contactForm" action="https://formspree.io/f/SEU_ENDPOINT_AQUI" method="POST">
+                        <div class="form-group">
+                            <label for="name">Nome Completo</label>
+                            <input type="text" id="name" name="name" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="email">E-mail</label>
+                            <input type="email" id="email" name="email" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="phone">Telefone/WhatsApp</label>
+                            <input type="tel" id="phone" name="phone" required>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="service">Interesse</label>
+                            <select id="service" name="service" required>
+                                <option value="">Selecione uma opção</option>
+                                <option value="cruzeiro">Cruzeiro Individual</option>
+                                <option value="grupo">Viagem em Grupo</option>
+                                <option value="vip">Grupo VIP</option>
+                                <option value="consultoria">Consultoria</option>
+                                <option value="outro">Outro</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="message">Mensagem</label>
+                            <textarea id="message" name="message" rows="4" placeholder="Conte-nos sobre sua viagem dos sonhos..."></textarea>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-primary" style="width: 100%;">
+                            Enviar Mensagem 🚀
+                        </button>
+                        
+                        <!-- Mensagens de status -->
+                        <div id="form-status" style="margin-top: 1rem; text-align: center; display: none;">
+                            <div id="success-message" style="color: #20b2aa; font-weight: 600;">
+                                ✅ Mensagem enviada com sucesso! Entraremos em contato em breve.
+                            </div>
+                            <div id="error-message" style="color: #ff6b6b; font-weight: 600;">
+                                ❌ Erro ao enviar mensagem. Tente novamente ou entre em contato via WhatsApp.
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+    </body>
+    </html>
